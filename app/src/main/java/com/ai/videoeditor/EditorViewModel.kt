@@ -113,7 +113,7 @@ class EditorViewModel : ViewModel() {
             val caps = if (captionText.isNotBlank()) {
                 val s = captionStart.toIntOrNull() ?: 0
                 val e = captionEnd.toIntOrNull() ?: 10
-                listOf(Caption(captionText, s, e))
+                listOf(Caption(captionText.replace("\n", " ").replace("\r", " "), s, e))
             } else {
                 emptyList()
             }
@@ -134,7 +134,7 @@ class EditorViewModel : ViewModel() {
                 fade = fade,
                 silenceCut = silenceCut,
                 captions = caps,
-                title = title,
+                title = title.replace("\n", " ").replace("\r", " "),
                 titleColor = titleColor,
                 fontFile = FfmpegHelper.fontFile(context),
                 videoHasAudio = videoHasAudio
@@ -156,7 +156,11 @@ class EditorViewModel : ViewModel() {
         }
     }
 
-    fun outputShareUri(context: Context): Uri? {
+    fun onShareFailed() {
+        status = "Share nahi hua. Dobara Render karein."      
+        }
+
+        fun outputShareUri(context: Context): Uri? {
         val f = outputFile ?: return null
         return try {
             androidx.core.content.FileProvider.getUriForFile(
