@@ -151,7 +151,7 @@ fun MainScreen(vm: EditorViewModel) {
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         }
                         context.startActivity(Intent.createChooser(share, "Video share karein"))
-                    }
+                    } else { vm.onShareFailed() }
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
